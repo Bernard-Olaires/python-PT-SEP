@@ -82,3 +82,24 @@ class Book:
     WHERE books.id = %(id)s;
     """
     return connectToMySQL(cls.DB).query_db(query,data)
+
+  @classmethod
+  def get_user_books(cls,user_id):
+    data={"user_id":user_id}
+    query = """
+    SELECT * FROM books WHERE books.user_id = %(user_id)s;
+    """
+    results = connectToMySQL(cls.DB).query_db(query,data)
+    books = []
+    for row in results:
+      book = cls(row)
+      books.append(book)
+    return books
+
+  @classmethod
+  def delete_book(cls,book_id):
+    data = {"id":book_id}
+    query = """
+    DELETE FROM books WHERE id=%(id)s;
+    """
+    return connectToMySQL(cls.DB).query_db(query,data)

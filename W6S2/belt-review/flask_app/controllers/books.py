@@ -53,3 +53,20 @@ def update_book(id):
     book.Book.update_book(request.form)
     return redirect(f"/show/{id}")
   return redirect(f"/edit-book/{id}")
+
+
+@app.route("/user/account")
+def my_books():
+  if "user_id" not in session:
+    return redirect("/")
+  logged_in_user = user.User.get_user_by_id(session["user_id"])
+  books = book.Book.get_user_books(logged_in_user.id)
+  return render_template("my-books.html",logged_in_user=logged_in_user,books=books)
+
+
+@app.route("/books/delete/<int:id>")
+def delete_book(id):
+  if "user_id" not in session:
+    return redirect("/")
+  book.Book.delete_book(id)
+  return redirect("/user/account")

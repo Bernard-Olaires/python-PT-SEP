@@ -20,7 +20,7 @@
       </div>
       <div>
         <h2>Welcome {{logged_in_user.first_name}}</h2>
-        <a href="/new/book">Add a book</a>
+        <a href="/dashboard">Dashboard</a>
         <a href="/user/account">My Books</a>
         <a href="/logout">Logout</a>
       </div>
@@ -30,8 +30,7 @@
         <thead>
           <tr>
             <th scope="col">Title</th>
-            <th scope="col">Author</th>
-            <th scope="col">Added By</th>
+            <th>Date Published</th>
             <th scope="col">Actions</th>
           </tr>
         </thead>
@@ -39,10 +38,10 @@
           {% for book in books %}
           <tr>
             <td>{{book.title}}</td>
-            <td>{{book.author}}</td>
-            <td>{{book.creator.first_name}} {{book.creator.last_name}}</td>
+            <td>{{book.publish_date.strftime('%B %e, %Y')}}</td>
             <td>
-              <a href="/show/{{book.id}}">Details</a>
+              <a href="/edit/{{book.id}}">Edit</a>
+              <a href="/books/delete/{{book.id}}">Delete</a>
             </td>
           </tr>
           {% endfor%}
